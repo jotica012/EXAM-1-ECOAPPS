@@ -1,3 +1,5 @@
+
+
 const URL = `http://${window.location.hostname}:8080`;
 let socket = io(URL, {
     path: '/real-time'
@@ -146,6 +148,25 @@ function gameOver() {
 _____________________________________________ */
 
 
+socket.on('buttons-signal', realesed => {
+    let {
+        leftButton,
+        rightButton,
+    } = realesed;
+    leftButtonRealesed = leftButton 
+    rightButtonRealesed = rightButton
+    console.log(realesed);
+
+  });
+
+
+socket.on('direction-instructions', button => {
+    let { direction
+    } = button;
+    console.log(button);
+  });
+  
+  
 
 /*___________________________________________
 
@@ -153,8 +174,20 @@ _____________________________________________ */
 _____________________________________________ */
 
 async function sendScore(point) {
-    //
+    let points = {content: "SCORE"};
+
+    let request = {
+        method: "POST",
+        Headers: {
+          "Content-Type" : "application/json"
+        }, 
+        body: JSON.stringify(points)
+    }
+    console.log('Sent');
+    fetch ('http://localhost:8080/score', request);
+
 }
+    //
 
 /*___________________________________________
 
@@ -162,5 +195,8 @@ async function sendScore(point) {
 _____________________________________________ */
 
 async function getFinalScore() {
+    fetch('http://localhost:8080/score').then(response => response.json())
+    .then(content => {response = content, console.log(content)})
     //
+    
 }

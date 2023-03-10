@@ -28,6 +28,20 @@ It should listen for directions and emit the incoming data.
 _____________________________________________ */
 
 
+io.on('connection', (socket) => {
+    console.log(socket.id);
+   
+
+   socket.on('mobile-buttons', realesed => {
+        socket.broadcast.emit('buttons-signal', realesed);
+    });
+
+   socket.on('mobile-instructions', instructions => {
+        console.log(instructions);
+        socket.broadcast.emit('direction-instructions', interactions);
+    })
+});
+
 
 let currentScore = 0;
 
@@ -36,7 +50,11 @@ let currentScore = 0;
 2) Create an endpoint to POST player's current score and print it on console
 _____________________________________________ */
 
-expressApp.post('/score', (request, response) => {
+
+expressApp.post('/score', (request, response) => {  
+    let {content} = request.body;
+    console.log(content)
+    response.end();    
    //
 })
 
@@ -44,7 +62,10 @@ expressApp.post('/score', (request, response) => {
 
 3) Create an endpoint to GET player's final score and print it on canvas
 _____________________________________________ */
-
-expressApp.get('/final-score', (request, response) => {
+/*
+expressApp.get('/final-score', (request, response) => { 
+    let response = {content: "Here's your final score"};
+    console.log(content)
+    response.send(message);
     //
-})
+})*/

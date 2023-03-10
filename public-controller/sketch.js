@@ -5,6 +5,7 @@ let socket = io(URL, {
 
 let leftButton
 let rightButton
+let realesed
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -24,6 +25,7 @@ function setup() {
     }
 }
 
+
 function draw() {
     background(0, 50)
     renderButton(leftButton)
@@ -39,6 +41,7 @@ function buttonPressed(button) {
     if (dist(mouseX, mouseY, button.x, button.y) <= button.diameter / 2) {
         button.isPressed = true
         sendDirection(button)
+        console.log(button);
     }
 }
 
@@ -50,6 +53,7 @@ function buttonReleased(button) {
 function mousePressed() {
     buttonPressed(leftButton)
     buttonPressed(rightButton)
+   
 }
 
 
@@ -62,8 +66,11 @@ function mouseReleased() {
 
         1) Emit a message when the user is not tapping at any button
         _____________________________________________ */
-
-
+        socket.emit('mobile-buttons', {
+            realesed,
+            leftButton,
+            rightButton,
+        });
     }
 }
 
@@ -72,6 +79,26 @@ function mouseReleased() {
 2) Create a function that includes the socket method to emit the directions
 _____________________________________________ */
 
+
+
 function sendDirection(button) {
+
+    switch (button) {
+        case 'LEFT':
+            if (buttonPressed(leftButton))
+            {socket.emit('mobile-instructions', { button,
+                direction: 'LEFT',
+            }) }
+            console.log(leftButton)
+            break;
+        case 'RIGHT': 
+        if ( buttonPressed(rightButton))
+            {socket.emit('mobile-instructions', {  button,
+                direction: 'RIGHT',
+            }) }
+            break;
+
+            
+    }
     //
 }
